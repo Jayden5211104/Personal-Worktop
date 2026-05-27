@@ -5,7 +5,7 @@ const isLoading = ref(false)
 const dailyQuote = ref('')
 
 const DEEPSEEK_TOKEN = 'sk-ec5d853cc2f04799a870fce6d5a3b9d5'
-const MODEL = 'deepseek-V4-PRO'
+const MODEL = 'deepseek-v4-flash'
 const API_BASE = '/api/deepseek'
 
 const SYSTEM_PROMPT = `你是"台台"，一个阳光、快乐、喜欢鼓励人的AI助手。你的回答风格活泼温暖，偶尔带点小幽默。
@@ -51,13 +51,14 @@ const loadDailyQuote = async () => {
           { role: 'system', content: '你是一个温暖阳光的助手，每天给用户一句简短的鼓励语。' },
           { role: 'user', content: '请给我一句今天的鼓励语，不超过40字，温暖有力量。只输出这句话本身。' }
         ],
-        max_tokens: 100,
+        max_tokens: 512,
         temperature: 0.9
       })
     })
     if (response.ok) {
       const data = await response.json()
-      dailyQuote.value = data.choices[0].message.content.trim()
+      const msg = data.choices[0].message
+      dailyQuote.value = (msg.content || msg.reasoning_content || '每一天都是新的开始！').trim()
       localStorage.setItem('workspace_dailyQuote', JSON.stringify({
         date: getTodayKey(),
         quote: dailyQuote.value
@@ -109,7 +110,7 @@ const sendMessage = async (content, attachments, onToken) => {
         model: MODEL,
         messages: apiMessages,
         temperature: 0.7,
-        max_tokens: 4096,
+        max_tokens: 16384,
         stream: true
       })
     })
@@ -133,7 +134,7 @@ const sendMessage = async (content, attachments, onToken) => {
         if (jsonStr === '[DONE]') continue
         try {
           const data = JSON.parse(jsonStr)
-          const token = data.choices?.[0]?.delta?.content
+          const token = data.choices?.[0]?.delta?.content || data.choices?.[0]?.delta?.reasoning_content
           if (token) {
             fullText += token
             messages.value[assistantIdx].content = fullText
