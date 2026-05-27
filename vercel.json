@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "rewrites": [
+    {
+      "source": "/api/modelscope/:path*",
+      "destination": "https://api-inference.modelscope.cn/v1/:path*"
+    },
+    {
+      "source": "/((?!api/modelscope).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
