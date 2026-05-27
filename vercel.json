@@ -8,7 +8,11 @@
       "destination": "https://api-inference.modelscope.cn/v1/:path*"
     },
     {
-      "source": "/((?!api/modelscope).*)",
+      "source": "/api/deepseek/:path*",
+      "destination": "https://api.deepseek.com/v1/:path*"
+    },
+    {
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]

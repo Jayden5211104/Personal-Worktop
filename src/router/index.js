@@ -25,6 +25,11 @@ const routes = [
     path: '/water',
     name: 'Water',
     component: () => import('../views/WaterView.vue')
+  },
+  {
+    path: '/aichat',
+    name: 'AiChat',
+    component: () => import('../views/AiChatView.vue')
   }
 ]
 

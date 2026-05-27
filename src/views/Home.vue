@@ -8,6 +8,7 @@ import WaterTracker from '../components/WaterTracker.vue'
 import Notes from '../components/Notes.vue'
 import WordCard from '../components/WordCard.vue'
 import QuickLinks from '../components/QuickLinks.vue'
+import AiChatCard from '../components/AiChatCard.vue'
 import { Plus } from '@lucide/vue'
 import { useRouter } from 'vue-router'
 
@@ -76,6 +77,10 @@ const navigateToWords = () => {
 const navigateToWater = () => {
   router.push('/water')
 }
+
+const navigateToAiChat = () => {
+  router.push('/aichat')
+}
 </script>
 
 <template>
@@ -111,6 +116,9 @@ const navigateToWater = () => {
       </div>
       <div class="lg:col-span-1">
         <QuickLinks />
+      </div>
+      <div class="lg:col-span-1 cursor-pointer" @click="navigateToAiChat">
+        <AiChatCard />
       </div>
     </div>
   </div>
